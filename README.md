@@ -82,4 +82,7 @@ Project currently under development as part of the Master's Thesis (TFM).
 Master's Degree in Development and Operations (DevOps)
 Universidad Internacional de La Rioja (UNIR)
 
+Rubén Cazorla Rodríguez
+Cristhian Alexander Cano Correa
+
 ---
