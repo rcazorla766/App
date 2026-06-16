@@ -49,6 +49,52 @@ The following technologies are planned to be used during development:
 
 ---
 
+## Local Development Setup
+
+### 1. Create the virtual environment
+
+```bash
+python -m venv venv
+```
+
+### 2. Activate the virtual environment
+
+**Windows (PowerShell):**
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+**Windows (CMD):**
+```cmd
+venv\Scripts\activate.bat
+```
+
+**Linux / macOS:**
+```bash
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+The `requirements.txt` includes the following main dependencies:
+
+| Package | Version |
+|---|---|
+| fastapi | 0.137.1 |
+| uvicorn | 0.49.0 |
+| pydantic | 2.13.4 |
+| scikit-learn | 1.9.0 |
+| pandas | 3.0.3 |
+| numpy | 2.4.6 |
+
+> To deactivate the virtual environment, run `deactivate`.
+
+---
+
 ## CI/CD
 
 This repository will integrate Continuous Integration pipelines using GitHub Actions in order to:
