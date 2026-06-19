@@ -52,3 +52,12 @@ output_path = os.path.join(output_dir, "trained_model_v1.pkl")
 joblib.dump(model, output_path)
 
 print(f"\nModel saved to: {os.path.abspath(output_path)}")
+
+#test
+"""""
+loaded_model = joblib.load(output_path)
+sample_input = X_test.iloc[0:1]
+prediction = loaded_model.predict(sample_input)
+print(f"\nSample input:\n{sample_input}")
+print(f"Predicted value: {prediction[0]:.4f}")
+"""

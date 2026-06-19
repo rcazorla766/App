@@ -1,0 +1,6 @@
+{
+    "model_name": "House Price Predictor",
+    "algorithm": "Random Forest",
+    "version": "v1",
+    "dataset": "California Housing"
+}
