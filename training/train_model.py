@@ -44,4 +44,11 @@ print(f"\nModel evaluation:")
 print(f"  RMSE : {rmse:.4f}")
 print(f"  R²   : {r2:.4f}")
 
+# Save the model
+output_dir = os.path.join(os.path.dirname(__file__), "..", "app", "models")
+os.makedirs(output_dir, exist_ok=True)
+output_path = os.path.join(output_dir, "trained_model_v1.pkl")
 
+joblib.dump(model, output_path)
+
+print(f"\nModel saved to: {os.path.abspath(output_path)}")
