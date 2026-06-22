@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="/static/style.css">
 
+    <script src="/static/app.js"></script>
 </head>
 
 <body>
@@ -29,33 +30,33 @@
 
         </div>
 
-        <form>
+        <form id="prediction-form">
 
             <label>Median Income</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="MedInc">
 
             <label>House Age</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="HouseAge">
 
             <label>Average Rooms</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="AveRooms">
 
             <label>Average Bedrooms</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="AveBedrms">
 
             <label>Population</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="Population">
 
             <label>Average Occupancy</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="AveOccup">
 
             <label>Latitude</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="Latitude">
 
             <label>Longitude</label>
-            <input type="number" step="any">
+            <input type="number" step="any" id="Longitude">
 
-            <button type="button">
+            <button id="predict-button" type="button">
 
                 Predict
 
@@ -67,7 +68,7 @@
 
             <h2>Prediction</h2>
 
-            <p>-</p>
+            <p id="prediction-result">-</p>
 
         </div>
 
