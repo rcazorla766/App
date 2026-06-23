@@ -30,4 +30,4 @@ dist/
 Thumbs.db
 
 #trained models
-*.pkl
+#*.pkl
