@@ -66,7 +66,6 @@ class TestLoadModel:
 
     def test_loads_model_successfully(self, tmp_path):
         """Real load_model returns an object when a valid pkl file exists."""
-        # MagicMock is not picklable; use a real (minimal) sklearn estimator
         model_obj = DummyRegressor()
         model_obj.fit([[0]], [0])
         model_path = tmp_path / "model.pkl"
@@ -267,3 +266,14 @@ class TestReloadModel:
 
         assert len(load_model_calls) == 1
         assert len(load_metadata_calls) == 1
+
+
+# ---------------------------------------------------------------------------
+# is_ready
+# ---------------------------------------------------------------------------
+
+
+class TestIsReady:
+    def test_returns_true_when_model_and_metadata_exist(self):
+        service = PredictionService()
+        assert service.is_ready() is True
