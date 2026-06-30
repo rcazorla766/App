@@ -2,5 +2,21 @@
     "model_name": "House Price Predictor",
     "algorithm": "Random Forest",
     "version": "v1",
-    "dataset": "California Housing"
+    "dataset": "California Housing",
+    "features": [
+        "MedInc",
+        "HouseAge",
+        "AveRooms",
+        "AveBedrms",
+        "Population",
+        "AveOccup",
+        "Latitude",
+        "Longitude"
+    ],
+    "metrics": {
+        "rmse": 0.5046,
+        "r2": 0.8055
+    },
+    "trained_at": "2026-06-29T00:00:00+00:00",
+    "artifact_path": "trained_model_v1.pkl"
 }

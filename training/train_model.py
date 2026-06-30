@@ -1,63 +1,90 @@
-import os
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
 import joblib
 import numpy as np
 from sklearn.datasets import fetch_california_housing
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
 
-# Load the California housing dataset
-print("Loading California Housing dataset...")
-data = fetch_california_housing(as_frame=True)
-df = data.frame
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
 
-print(df.head())
-print(f"Dataset shape: {df.shape}")
-print(df.info())
-
-# Features and target
-X = df.drop(columns=["MedHouseVal"])
-y = df["MedHouseVal"]
-
-# Train/test split
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+from app.core.constants import (  # noqa: E402
+    ALGORITHM,
+    DATASET_NAME,
+    FEATURE_NAMES,
+    MODEL_NAME,
+    MODEL_VERSION,
+    TARGET_NAME,
 )
 
-# Train a Random Forest model
-print("\nTraining Random Forest model...")
-model = RandomForestRegressor(
-    n_estimators=100,
-    max_depth=10,
-    random_state=42,
-    n_jobs=-1
-)
-model.fit(X_train, y_train)
+OUTPUT_DIR = PROJECT_ROOT / "app" / "models"
+MODEL_FILENAME = f"trained_model_{MODEL_VERSION}.pkl"
+METADATA_FILENAME = "model_metadata.json"
 
-# Evaluate
-y_pred = model.predict(X_test)
-mse = mean_squared_error(y_test, y_pred)
-rmse = np.sqrt(mse)
-r2 = r2_score(y_test, y_pred)
 
-print(f"\nModel evaluation:")
-print(f"  RMSE : {rmse:.4f}")
-print(f"  R²   : {r2:.4f}")
+def train_and_save_model() -> None:
+    print("Loading California Housing dataset...")
+    data = fetch_california_housing(as_frame=True)
+    dataframe = data.frame
 
-# Save the model
-output_dir = os.path.join(os.path.dirname(__file__), "..", "app", "models")
-os.makedirs(output_dir, exist_ok=True)
-output_path = os.path.join(output_dir, "trained_model_v1.pkl")
+    print(dataframe.head())
+    print(f"Dataset shape: {dataframe.shape}")
 
-joblib.dump(model, output_path)
+    features = dataframe[FEATURE_NAMES]
+    target = dataframe[TARGET_NAME]
 
-print(f"\nModel saved to: {os.path.abspath(output_path)}")
+    train_features, test_features, train_target, test_target = train_test_split(
+        features, target, test_size=0.2, random_state=42
+    )
 
-#test
-"""""
-loaded_model = joblib.load(output_path)
-sample_input = X_test.iloc[0:1]
-prediction = loaded_model.predict(sample_input)
-print(f"\nSample input:\n{sample_input}")
-print(f"Predicted value: {prediction[0]:.4f}")
-"""
+    print("\nTraining Random Forest model...")
+    model = RandomForestRegressor(
+        n_estimators=100,
+        max_depth=10,
+        random_state=42,
+        n_jobs=-1,
+    )
+    model.fit(train_features, train_target)
+
+    predictions = model.predict(test_features)
+    rmse = float(np.sqrt(mean_squared_error(test_target, predictions)))
+    r2 = float(r2_score(test_target, predictions))
+
+    print("\nModel evaluation:")
+    print(f"  RMSE : {rmse:.4f}")
+    print(f"  R²   : {r2:.4f}")
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    model_path = OUTPUT_DIR / MODEL_FILENAME
+    metadata_path = OUTPUT_DIR / METADATA_FILENAME
+
+    joblib.dump(model, model_path)
+
+    metadata = {
+        "model_name": MODEL_NAME,
+        "algorithm": ALGORITHM,
+        "version": MODEL_VERSION,
+        "dataset": DATASET_NAME,
+        "features": FEATURE_NAMES,
+        "metrics": {
+            "rmse": rmse,
+            "r2": r2,
+        },
+        "trained_at": datetime.now(timezone.utc).isoformat(),
+        "artifact_path": MODEL_FILENAME,
+    }
+
+    with open(metadata_path, "w", encoding="utf-8") as metadata_file:
+        json.dump(metadata, metadata_file, indent=4)
+
+    print(f"\nModel saved to: {model_path.resolve()}")
+    print(f"Metadata saved to: {metadata_path.resolve()}")
+
+
+if __name__ == "__main__":
+    train_and_save_model()

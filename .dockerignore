@@ -1,11 +1,33 @@
-.venv
-__pycache__
-.git
-.gitignore
-.vscode
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-*.pyc
+.git/
+.github/
+.vscode/
+.idea/
 
+test/
 training/
+tests/
 
-README.md
+pytest.ini
+requirements-test.txt
+requirements-dev.txt
+
+*.md
+.env
+.env.*
+
+Dockerfile.*
+dockerfile
+
+*.log
