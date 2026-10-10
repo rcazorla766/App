@@ -8,7 +8,10 @@ def health():
     """
     Liveness probe: confirms the API process is running.
     """
-    return {"status": "healthy"}
+    return {
+        "status": "healthy",
+        "release": "demo-ok",
+    }
 
 
 @router.get("/ready", tags=["Health"])

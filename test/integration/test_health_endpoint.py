@@ -20,9 +20,11 @@ class TestHealthEndpoint:
         response = client.get("/health")
         assert response.json()["status"] == "healthy"
 
-    def test_response_has_exactly_one_field(self, client):
+    def test_response_has_status_and_release(self, client):
         response = client.get("/health")
-        assert set(response.json().keys()) == {"status"}
+        body = response.json()
+        assert set(body.keys()) == {"status", "release"}
+        assert body["release"] == "demo-ok"
 
     def test_method_not_allowed_for_post(self, client):
         response = client.post("/health")
