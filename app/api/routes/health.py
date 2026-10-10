@@ -9,8 +9,8 @@ def health():
     Liveness probe: confirms the API process is running.
     """
     return {
-        "status": "healthy",
-        "release": "demo-ok",
+        "status": "unhealthy",
+        "release": "demo-fail",
     }
 
 
