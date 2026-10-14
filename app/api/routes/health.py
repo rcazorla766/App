@@ -10,7 +10,7 @@ def health():
     """
     return {
         "status": "healthy",
-        "release": "demo_ok",
+        "release": "demo-ok",
     }
 
 
